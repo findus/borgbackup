@@ -87,7 +87,7 @@ if [ "$1" = "backup" ]; then
     if [ -z "$2" ] || {{ is_for_me(b, '$2')}}; then
         echo "Backing up to {{ b.fqdn }} :"
         REPOSITORY="{{ repository(b, inventory_hostname) }}"
-        {{ borgbackup_binary }} create -v {{ b.options }} --stats --progress --compression {{ borgbackup_compression }} $REPOSITORY::$DATE \
+        {{ borgbackup_binary }} create -v {{ b.options }} --stats --compression {{ borgbackup_compression }} $REPOSITORY::$DATE \
             {% for dir in borgbackup_include %} '{{ dir }}'{% endfor %}
             {%- if automysql.stat.isdir is defined and automysql.stat.isdir | bool %} '/var/lib/automysqlbackup'{% endif %} \
             {% for dir in borgbackup_exclude %} --exclude '{{ dir }}'{% endfor %}
